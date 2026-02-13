@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: research-portal
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn --bind 0.0.0.0:$PORT --timeout 120 app:app"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: GOOGLE_GEMINI_API_KEY
+        sync: false
+    # System packages for OCR
+    nativeEnvironment:
+      - key: APT_PACKAGES
+        value: "tesseract-ocr tesseract-ocr-eng poppler-utils"

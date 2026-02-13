@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Portal - AI-Powered Financial Analysis</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tesseract.js for frontend OCR -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    
+    <!-- PDF.js for frontend PDF rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-slide-up {
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .drag-over {
+            border-color: #4f46e5 !important;
+            background-color: #eef2ff !important;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen py-6 px-4 sm:px-6 lg:px-8">
+    
+    <!-- Hero Header -->
+    <div class="max-w-7xl mx-auto mb-8 text-center animate-fade-in">
+        <div class="inline-flex items-center justify-center p-3 bg-white/10 rounded-2xl backdrop-blur-sm mb-6">
+            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold text-white mb-3">
+            Financial Research Portal
+        </h1>
+        <p class="text-lg sm:text-xl text-white/90 font-light max-w-2xl mx-auto">
+            AI-Powered Earnings Call & Management Commentary Analysis
+        </p>
+        <div class="mt-4 flex items-center justify-center gap-2 text-white/80 text-sm">
+            <span class="inline-flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Zero Hallucination
+            </span>
+            <span class="mx-2">•</span>
+            <span class="inline-flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Structured Output
+            </span>
+            <span class="mx-2">•</span>
+            <span class="inline-flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Gemini AI
+            </span>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- Upload Section -->
+        <div class="glass-morphism rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10 mb-8 hover-lift animate-slide-up">
+            
+            <!-- Upload Area -->
+            <div id="uploadSection" 
+                 class="border-3 border-dashed border-indigo-300 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-all duration-300 bg-gradient-to-br from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100">
+                <label for="fileInput" class="cursor-pointer block">
+                    <div class="mb-4">
+                        <svg class="w-16 h-16 sm:w-20 sm:h-20 mx-auto text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                    </div>
+                    <p class="text-xl sm:text-2xl font-semibold text-gray-700 mb-2">
+                        Drop your document here
+                    </p>
+                    <p class="text-sm sm:text-base text-gray-500 mb-4">
+                        or click to browse files
+                    </p>
+                    <div class="flex items-center justify-center gap-4 text-xs sm:text-sm text-gray-400">
+                        <span class="inline-flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
+                            </svg>
+                            PDF, TXT
+                        </span>
+                        <span>•</span>
+                        <span class="inline-flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                            </svg>
+                            Max 20MB
+                        </span>
+                    </div>
+                </label>
+                <input type="file" id="fileInput" accept=".pdf,.txt" class="hidden">
+            </div>
+
+            <!-- Selected File Display -->
+            <div id="fileName" class="hidden mt-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
+                        </svg>
+                        <div>
+                            <p class="text-sm font-medium text-gray-700">Selected File</p>
+                            <p id="fileNameText" class="text-xs text-gray-500"></p>
+                        </div>
+                    </div>
+                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-6 flex flex-col sm:flex-row gap-4">
+                <button id="uploadBtn" 
+                        disabled 
+                        onclick="uploadDocument()"
+                        class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <span>Upload Document</span>
+                </button>
+                
+                <button id="analyzeBtn" 
+                        onclick="analyzeDocument()"
+                        class="hidden flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                    <span>Analyze with AI</span>
+                </button>
+
+                <button id="newDocBtn"
+                        onclick="resetForNewDocument()"
+                        class="hidden flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    <span>Upload New Document</span>
+                </button>
+            </div>
+
+            <!-- Status Messages -->
+            <div id="status" class="hidden mt-6"></div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="hidden"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="max-w-6xl mx-auto mt-12 text-center text-white/70 text-sm pb-6">
+        <p>Powered by GitHub Models (GPT-4o) • Built with Flask & Tailwind CSS</p>
+        <p class="mt-2">Frontend OCR with Tesseract.js • Zero Hallucination Guarantee</p>
+    </footer>
+
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' 
+            ? 'http://localhost:5000' 
+            : window.location.origin;
+        let documentId = null;
+        let selectedFile = null;
+
+        const fileInput = document.getElementById('fileInput');
+        const uploadSection = document.getElementById('uploadSection');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const newDocBtn = document.getElementById('newDocBtn');
+        const status = document.getElementById('status');
+        const results = document.getElementById('results');
+        const fileName = document.getElementById('fileName');
+        const fileNameText = document.getElementById('fileNameText');
+
+        // File input change
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                selectedFile = file;
+                fileNameText.textContent = file.name;
+                fileName.classList.remove('hidden');
+                uploadBtn.disabled = false;
+            }
+        });
+
+        // Drag and drop
+        uploadSection.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadSection.classList.add('drag-over');
+        });
+
+        uploadSection.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadSection.classList.remove('drag-over');
+        });
+
+        uploadSection.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadSection.classList.remove('drag-over');
+            
+            const file = e.dataTransfer.files[0];
+            if (file && (file.type === 'application/pdf' || file.type === 'text/plain')) {
+                selectedFile = file;
+                
+                // Manually set the file input files
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                fileInput.files = dataTransfer.files;
+                
+                fileNameText.textContent = file.name;
+                fileName.classList.remove('hidden');
+                uploadBtn.disabled = false;
+            } else {
+                showStatus('error', '❌ Please upload a PDF or TXT file');
+            }
+        });
+
+        async function uploadDocument() {
+            if (!selectedFile) {
+                showStatus('error', '❌ Please select a file first');
+                return;
+            }
+
+            uploadBtn.disabled = true;
+            uploadBtn.innerHTML = `
+                <div class="spinner inline-block"></div>
+                <span class="ml-2">Processing...</span>
+            `;
+
+            try {
+                let extractedText = '';
+                
+                showStatus('info', '⏳ Processing document...');
+                
+                // Handle PDF files
+                if (selectedFile.type === 'application/pdf') {
+                    // First try to extract text directly
+                    extractedText = await extractTextFromPDF(selectedFile);
+                    
+                    // If no text extracted, it's image-based - use OCR
+                    if (extractedText.trim().length === 0) {
+                        showStatus('info', '⏳ Processing scanned PDF...');
+                        extractedText = await performFrontendOCR(selectedFile);
+                    }
+                } 
+                // Handle TXT files
+                else if (selectedFile.type === 'text/plain') {
+                    extractedText = await selectedFile.text();
+                } 
+                else {
+                    throw new Error('Unsupported file type. Please upload PDF or TXT files.');
+                }
+                
+                if (extractedText.trim().length === 0) {
+                    throw new Error('No text could be extracted from the file.');
+                }
+                
+                // Send extracted text directly to backend
+                showStatus('info', '⏳ Uploading...');
+                
+                const response = await fetch(`${API_BASE}/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        text: extractedText,
+                        filename: selectedFile.name
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    documentId = data.document_id;
+                    showStatus('success', `✅ Ready to analyze!`);
+                    uploadBtn.classList.add('hidden');
+                    analyzeBtn.classList.remove('hidden');
+                } else {
+                    showStatus('error', `❌ ${data.error}`);
+                    uploadBtn.disabled = false;
+                    uploadBtn.innerHTML = `
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                        <span>Upload Document</span>
+                    `;
+                }
+            } catch (error) {
+                showStatus('error', `❌ Error: ${error.message}`);
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = `
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <span>Upload Document</span>
+                `;
+            }
+        }
+
+        async function analyzeDocument() {
+            if (!documentId) return;
+
+            showStatus('info', '🤖 Analyzing with GPT-4o... This may take 10-60 seconds for detailed analysis.');
+            analyzeBtn.disabled = true;
+            analyzeBtn.innerHTML = `
+                <div class="spinner inline-block"></div>
+                <span class="ml-2">Analyzing...</span>
+            `;
+            results.classList.add('hidden');
+
+            try {
+                const response = await fetch(`${API_BASE}/analyze`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ document_id: documentId })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showStatus('success', '✨ Analysis completed successfully!');
+                    displayResults(data.analysis);
+                    
+                    // Hide analyze button and show "Upload New Document" button
+                    analyzeBtn.classList.add('hidden');
+                    newDocBtn.classList.remove('hidden');
+                } else {
+                    showStatus('error', `❌ ${data.error}`);
+                    analyzeBtn.disabled = false;
+                    analyzeBtn.innerHTML = `
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                        <span>Try Again</span>
+                    `;
+                }
+            } catch (error) {
+                showStatus('error', `❌ Error: ${error.message}`);
+                analyzeBtn.disabled = false;
+                analyzeBtn.innerHTML = `
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                    <span>Try Again</span>
+                `;
+            }
+        }
+
+        function showStatus(type, message) {
+            const icons = {
+                info: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+                success: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+                error: 'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'
+            };
+            
+            const colors = {
+                info: 'bg-blue-50 border-blue-200 text-blue-800',
+                success: 'bg-green-50 border-green-200 text-green-800',
+                error: 'bg-red-50 border-red-200 text-red-800'
+            };
+
+            status.className = `mt-6 p-4 rounded-xl border-2 ${colors[type]} animate-fade-in flex items-start gap-3`;
+            status.innerHTML = `
+                <svg class="w-6 h-6 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${icons[type]}"></path>
+                </svg>
+                <p class="flex-1 font-medium">${message}</p>
+            `;
+            status.classList.remove('hidden');
+        }
+
+        function getBadgeColor(value) {
+            const badges = {
+                optimistic: 'bg-green-100 text-green-800 border-green-300',
+                cautious: 'bg-yellow-100 text-yellow-800 border-yellow-300',
+                neutral: 'bg-gray-100 text-gray-800 border-gray-300',
+                pessimistic: 'bg-red-100 text-red-800 border-red-300',
+                high: 'bg-blue-100 text-blue-800 border-blue-300',
+                medium: 'bg-indigo-100 text-indigo-800 border-indigo-300',
+                low: 'bg-gray-100 text-gray-800 border-gray-300'
+            };
+            return badges[value.toLowerCase()] || 'bg-gray-100 text-gray-800 border-gray-300';
+        }
+
+        function displayResults(analysis) {
+            const html = `
+                <div class="glass-morphism rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10 animate-slide-up">
+                    <!-- Header -->
+                    <div class="flex items-center gap-3 mb-8 pb-6 border-b-2 border-gray-200">
+                        <div class="p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Analysis Results</h2>
+                            <p class="text-sm text-gray-500 mt-1">AI-powered financial commentary analysis</p>
+                        </div>
+                    </div>
+
+                    <!-- Management Metrics Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-6 rounded-2xl border border-indigo-100">
+                            <div class="flex items-center gap-2 mb-3">
+                                <svg class="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <h3 class="font-semibold text-gray-700 uppercase text-xs tracking-wider">Management Tone</h3>
+                            </div>
+                            <span class="inline-block px-4 py-2 rounded-xl font-bold text-base border-2 ${getBadgeColor(analysis.management_tone)}">
+                                ${analysis.management_tone.toUpperCase()}
+                            </span>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-2xl border border-blue-100">
+                            <div class="flex items-center gap-2 mb-3">
+                                <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <h3 class="font-semibold text-gray-700 uppercase text-xs tracking-wider">Confidence Level</h3>
+                            </div>
+                            <span class="inline-block px-4 py-2 rounded-xl font-bold text-base border-2 ${getBadgeColor(analysis.confidence_level)}">
+                                ${analysis.confidence_level.toUpperCase()}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Key Positives -->
+                    <div class="mb-8">
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <h3 class="text-lg font-bold text-gray-800">Key Positives</h3>
+                        </div>
+                        ${analysis.key_positives.length > 0 
+                            ? `<div class="space-y-3">
+                                ${analysis.key_positives.map((p, i) => `
+                                    <div class="flex items-start gap-3 bg-green-50 p-4 rounded-xl border border-green-200 hover:shadow-md transition-shadow">
+                                        <span class="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">${i+1}</span>
+                                        <p class="text-gray-700 flex-1">${p}</p>
+                                    </div>
+                                `).join('')}
+                               </div>`
+                            : '<div class="bg-gray-50 p-4 rounded-xl border border-gray-200 text-gray-500 italic">Not mentioned in document</div>'
+                        }
+                    </div>
+
+                    <!-- Key Concerns -->
+                    <div class="mb-8">
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg class="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <h3 class="text-lg font-bold text-gray-800">Key Concerns</h3>
+                        </div>
+                        ${analysis.key_concerns.length > 0 
+                            ? `<div class="space-y-3">
+                                ${analysis.key_concerns.map((c, i) => `
+                                    <div class="flex items-start gap-3 bg-orange-50 p-4 rounded-xl border border-orange-200 hover:shadow-md transition-shadow">
+                                        <span class="flex-shrink-0 w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold">${i+1}</span>
+                                        <p class="text-gray-700 flex-1">${c}</p>
+                                    </div>
+                                `).join('')}
+                               </div>`
+                            : '<div class="bg-gray-50 p-4 rounded-xl border border-gray-200 text-gray-500 italic">Not mentioned in document</div>'
+                        }
+                    </div>
+
+                    <!-- Forward Guidance -->
+                    <div class="mb-8">
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                            </svg>
+                            <h3 class="text-lg font-bold text-gray-800">Forward Guidance</h3>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
+                                <p class="text-xs font-semibold text-blue-700 uppercase mb-2">Revenue</p>
+                                <p class="text-sm text-gray-700">${analysis.forward_guidance.revenue}</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-xl border border-purple-200">
+                                <p class="text-xs font-semibold text-purple-700 uppercase mb-2">Margin</p>
+                                <p class="text-sm text-gray-700">${analysis.forward_guidance.margin}</p>
+                            </div>
+                            <div class="bg-pink-50 p-4 rounded-xl border border-pink-200">
+                                <p class="text-xs font-semibold text-pink-700 uppercase mb-2">CapEx</p>
+                                <p class="text-sm text-gray-700">${analysis.forward_guidance.capex}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Capacity Utilization -->
+                    <div class="mb-8">
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg class="w-6 h-6 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path>
+                            </svg>
+                            <h3 class="text-lg font-bold text-gray-800">Capacity Utilization Trends</h3>
+                        </div>
+                        <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200">
+                            <p class="text-gray-700">${analysis.capacity_utilization_trends}</p>
+                        </div>
+                    </div>
+
+                    <!-- Growth Initiatives -->
+                    <div>
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg class="w-6 h-6 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"></path>
+                            </svg>
+                            <h3 class="text-lg font-bold text-gray-800">Growth Initiatives</h3>
+                        </div>
+                        ${analysis.growth_initiatives.length > 0 
+                            ? `<div class="space-y-3">
+                                ${analysis.growth_initiatives.map((g, i) => `
+                                    <div class="flex items-start gap-3 bg-emerald-50 p-4 rounded-xl border border-emerald-200 hover:shadow-md transition-shadow">
+                                        <span class="flex-shrink-0 w-6 h-6 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold">${i+1}</span>
+                                        <p class="text-gray-700 flex-1">${g}</p>
+                                    </div>
+                                `).join('')}
+                               </div>`
+                            : '<div class="bg-gray-50 p-4 rounded-xl border border-gray-200 text-gray-500 italic">Not mentioned in document</div>'
+                        }
+                    </div>
+                </div>
+            `;
+
+            results.innerHTML = html;
+            results.classList.remove('hidden');
+            
+            // Scroll to results
+            setTimeout(() => {
+                results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 300);
+        }
+
+        function resetForNewDocument() {
+            // Reset all state
+            documentId = null;
+            selectedFile = null;
+            
+            // Clear file input
+            fileInput.value = '';
+            
+            // Hide elements
+            fileName.classList.add('hidden');
+            analyzeBtn.classList.add('hidden');
+            newDocBtn.classList.add('hidden');
+            results.classList.add('hidden');
+            status.classList.add('hidden');
+            
+            // Show and reset upload button
+            uploadBtn.classList.remove('hidden');
+            uploadBtn.disabled = true;
+            uploadBtn.innerHTML = `
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                </svg>
+                <span>Upload Document</span>
+            `;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Frontend PDF text extraction
+        async function extractTextFromPDF(file) {
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                let fullText = '';
+
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    fullText += pageText + '\n\n';
+                }
+
+                return fullText.trim();
+            } catch (error) {
+                return '';
+            }
+        }
+
+        // Frontend OCR for image-based PDFs
+        async function performFrontendOCR(file) {
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                let fullText = '';
+
+                showStatus('info', `🔍 Starting OCR on ${pdf.numPages} pages...`);
+
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    showStatus('info', `🔍 Processing page ${i}/${pdf.numPages}... Please wait.`);
+                    
+                    const page = await pdf.getPage(i);
+                    const viewport = page.getViewport({ scale: 2.0 });
+                    
+                    // Create canvas
+                    const canvas = document.createElement('canvas');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    const context = canvas.getContext('2d');
+                    
+                    // Render PDF page to canvas
+                    await page.render({ canvasContext: context, viewport: viewport }).promise;
+                    
+                    // Perform OCR on canvas
+                    const { data: { text } } = await Tesseract.recognize(canvas, 'eng', {
+                        logger: () => {} // Silent
+                    });
+                    
+                    fullText += text + '\n\n';
+                }
+
+                showStatus('success', `✅ OCR completed!`);
+                return fullText;
+            } catch (error) {
+                console.error('OCR error:', error);
+                throw new Error('Frontend OCR failed: ' + error.message);
+            }
+        }
+
+        // Set PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+</body>
+</html>
