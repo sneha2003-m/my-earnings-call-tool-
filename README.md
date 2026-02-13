@@ -58,25 +58,32 @@ Server will start at: `http://localhost:5000`
 
 ## 📡 API Usage
 
-### **Endpoint 1: Upload Document**
+### **Endpoint 1: Upload Document (frontend-first)**
+
+The frontend extracts text from PDF/TXT files (using `pdf.js` + optional OCR) and sends the raw text to the backend.
+
+Request:
 
 ```bash
 POST /upload
-Content-Type: multipart/form-data
+Content-Type: application/json
 
-# Example with curl:
-curl -X POST http://localhost:5000/upload \
-  -F "file=@earnings_call.pdf"
+# Example JSON body:
+{
+  "text": "...extracted document text...",
+  "filename": "earnings_call.pdf"
+}
 ```
 
 **Response:**
+
 ```json
 {
   "document_id": "abc-123-xyz",
   "filename": "earnings_call.pdf",
   "text_length": 12543,
-  "status": "uploaded",
-  "message": "Document uploaded and text extracted successfully"
+  "status": "ready",
+  "message": "Text received successfully"
 }
 ```
 

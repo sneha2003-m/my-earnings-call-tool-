@@ -198,6 +198,15 @@
                     <span>Analyze with AI</span>
                 </button>
 
+               <button id="financeBtn"
+        onclick="downloadFinancialExcel()"
+        class="hidden flex-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+    </svg>
+    <span>Extract to Excel</span>
+</button>
+
                 <button id="newDocBtn"
                         onclick="resetForNewDocument()"
                         class="hidden flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
@@ -233,6 +242,7 @@
         const uploadSection = document.getElementById('uploadSection');
         const uploadBtn = document.getElementById('uploadBtn');
         const analyzeBtn = document.getElementById('analyzeBtn');
+        const financeBtn = document.getElementById('financeBtn');
         const newDocBtn = document.getElementById('newDocBtn');
         const status = document.getElementById('status');
         const results = document.getElementById('results');
@@ -346,6 +356,7 @@
                     showStatus('success', `✅ Ready to analyze!`);
                     uploadBtn.classList.add('hidden');
                     analyzeBtn.classList.remove('hidden');
+                    financeBtn.classList.remove('hidden');
                 } else {
                     showStatus('error', `❌ ${data.error}`);
                     uploadBtn.disabled = false;
@@ -622,6 +633,7 @@
             fileName.classList.add('hidden');
             analyzeBtn.classList.add('hidden');
             newDocBtn.classList.add('hidden');
+            financeBtn.classList.add('hidden');
             results.classList.add('hidden');
             status.classList.add('hidden');
             
@@ -638,6 +650,55 @@
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // Download CSV for income statement extraction
+       // Download Excel for income statement extraction
+async function downloadFinancialExcel() {
+    if (!documentId) return;
+
+    financeBtn.disabled = true;
+    financeBtn.innerHTML = `
+        <div class="spinner inline-block"></div>
+        <span class="ml-2">Extracting with AI...</span>
+    `;
+    
+    showStatus('info', '🤖 Extracting financial data with GPT-4o... This may take 30-60 seconds.');
+
+    try {
+        const response = await fetch(`${API_BASE}/financial-extract`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ document_id: documentId })
+        });
+
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.error || 'Failed to extract financial data');
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `financial_statement_${documentId}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+
+        showStatus('success', '✅ Excel file downloaded! Check your downloads folder.');
+    } catch (error) {
+        showStatus('error', `❌ ${error.message}`);
+    } finally {
+        financeBtn.disabled = false;
+        financeBtn.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <span>Extract to Excel</span>
+        `;
+    }
+}
 
         // Frontend PDF text extraction
         async function extractTextFromPDF(file) {

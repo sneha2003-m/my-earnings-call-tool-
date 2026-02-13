@@ -263,3 +263,48 @@ def analyze_document(api_key: str, text: str, chunks: List[str] = None) -> Dict[
         text_to_analyze = chunks[0] if chunks else text
         return analyze_chunk(client, text_to_analyze)
 
+def analyze_financial_document(api_key: str, text: str, prompt: str) -> Dict[str, Any]:
+    """
+    Extract financial data using custom prompt.
+    
+    Args:
+        api_key: GitHub personal access token
+        text: Full document text
+        prompt: Custom extraction prompt
+        
+    Returns:
+        Parsed JSON response
+    """
+    client = initialize_client(api_key)
+    
+    response_text = ""
+    try:
+        response = client.complete(
+            messages=[
+                {"role": "system", "content": "You are a financial data extraction specialist. Output only valid JSON."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.1,  # Very low for deterministic extraction
+            top_p=0.9,
+            model="gpt-4o"
+        )
+        
+        response_text = response.choices[0].message.content.strip()
+        
+        # Remove markdown code blocks
+        if response_text.startswith('```'):
+            lines = response_text.split('\n')
+            response_text = '\n'.join(lines[1:-1]) if len(lines) > 2 else response_text
+            response_text = response_text.replace('```json', '').replace('```', '').strip()
+        
+        result = json.loads(response_text)
+        
+        if not isinstance(result, dict):
+            raise Exception(f"Expected dictionary, got {type(result).__name__}")
+        
+        return result
+        
+    except json.JSONDecodeError as e:
+        raise Exception(f"Failed to parse JSON response: {str(e)}\nResponse: {response_text}")
+    except Exception as e:
+        raise Exception(f"Financial extraction error: {str(e)}")

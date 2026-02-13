@@ -5,3 +5,4 @@ Werkzeug==3.0.1
 gunicorn==21.2.0
 azure-ai-inference==1.0.0b6
 azure-core==1.30.0
+openpyxl>=3.1.2 
